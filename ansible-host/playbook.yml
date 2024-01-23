@@ -1,0 +1,45 @@
+# web_playbook.yml
+---
+- name: Install and Configure Web Servers
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install Apache
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+
+    - name: Start Apache
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: true
+
+
+# db_playbook.yml
+---
+- name: Install and Configure Database Server
+  hosts: dbservers
+  become: true
+
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install PostgreSQL
+      ansible.builtin.apt:
+        name: postgresql
+        state: latest
+
+    - name: Ensure PostgreSQL service is started
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: yes
+
